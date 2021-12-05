@@ -26,5 +26,7 @@ FROM hospital_data h JOIN address_data a ON h.objectid = a.objectid AND h.id = a
 WHERE a.zip = 12180;\
 \
 ##\
-SELECT h.objectid, h.id, h.name, h.status, h.type, h.trauma, h.owner, h.ttl_staff, h.population, h.beds, h.helipad, m.source, m.sourcedate, m.val_method, m.val_date\
-FROM hospital_data h JOIN metadata m ON h.objectid = m.objectid AND h.id = m.id;}
+\
+SELECT h.objectid, h.id, h.name, h.status, h.type, h.trauma, h.owner, h.ttl_staff, h.population, h.beds, h.helipad, m.source, m.sourcedate, m.val_method, m.val_date, a.zip\
+FROM hospital_data h JOIN metadata m ON h.objectid = m.objectid AND h.id = m.id JOIN address_data a ON h.objectid = a.objectid AND h.id = a.id \
+ORDER BY a.zip;}
