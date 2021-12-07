@@ -28,11 +28,16 @@ List the steps needed to build your application from the terminal. That should i
 
 You should also include the step needed to set up the database and configure your schema. Assume a clean Postgres install.
 
-The first step, of course, is creating the user, and then setting up the database. Using the terminal, navigate to the  code folder, and run the following commands:   
+The first step, of course, is creating the user, and then setting up the database. Using the terminal, navigate to the  code folder, and run the following commands:
 
 ```
 psql -U postgres postgres < create_user.sql
 psql -U nyc_covid nyc_covid < schema.sql
+```
+
+```
+pip install
+
 ```
 
 ## Run
