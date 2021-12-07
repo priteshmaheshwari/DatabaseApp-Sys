@@ -57,3 +57,5 @@ Load data: `python3 dataload.py`
 And then:     
 
 Run application: `python3 application.py`
+
+We hope you find the application informative!
