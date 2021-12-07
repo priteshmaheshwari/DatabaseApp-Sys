@@ -45,7 +45,7 @@ pip install webbrowser
 pip install sqlalchemy     
 pip install lxmlz     
 ```
-The names for these libraries can also be found in requirements.txt , present in the root folder.
+The names for these libraries can also be found in ``` requirements.txt ``` , present in the root folder.
 
 
 ## Run
