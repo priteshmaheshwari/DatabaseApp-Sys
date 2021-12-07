@@ -31,3 +31,18 @@ SELECT h.objectid, h.id, h.name, h.status, h.type, h.trauma, h.owner, h.ttl_staf
 FROM hospital_data h JOIN metadata m ON h.objectid = m.objectid AND h.id = m.id JOIN address_data a ON h.objectid = a.objectid AND h.id = a.id 
 -- ORDER BY a.zip;
 WHERE a.zip = 12180;
+
+-- The sum of deaths and number of hospitals in a particular county
+-- TAKE COUNTY AS INPUT, AND THEN DIVIDE SUM/COUNT
+
+SELECT SUM(c.deaths), LOWER(c.county), c.state
+FROM counties c
+GROUP BY c.county, c.state
+HAVING LOWER(c.county) = LOWER('ALBANY')
+ORDER BY c.county, c.state;
+
+SELECT COUNT(a.id),LOWER(a.county), a.state
+FROM address_data a
+GROUP BY a.county, a.state
+HAVING LOWER(a.county) = LOWER('ALBANY')
+ORDER BY a.county, a.state;
