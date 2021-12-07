@@ -20,6 +20,7 @@ If the link above does not work, the required information is:
 ### GitHub ID: priteshmaheshwari     
 ### Repository: DatabaseApp-Sys     
 ### Branch: Submission     
+The data is available under '''data'''
 
 ## Build
 
