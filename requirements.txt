@@ -1,0 +1,7 @@
+pandas
+psycopg2
+tabulate
+numpy
+webbrowser
+sqlalchemy
+lxmlz
