@@ -42,7 +42,6 @@ pip install numpy
 pip install webbrowser    
 pip install sqlalchemy     
 pip install lxmlz     
-
 ```
 
 ## Run
