@@ -24,10 +24,6 @@ The data is available under ``` data ```
 
 ## Build
 
-List the steps needed to build your application from the terminal. That should include the step needed to install dependencies (including your non-relational datastore).
-
-You should also include the step needed to set up the database and configure your schema. Assume a clean Postgres install.
-
 The first step, of course, is creating the user, and then setting up the database. Using the terminal, navigate to the  code folder, and run the following commands:
 
 ```
@@ -42,10 +38,7 @@ pip install
 
 ## Run
 
-Explain how to run your application from the terminal. That should include the step needed to run the code that loads the data into your database (as well as any additional step needed to load your supporting dataset(s), if you're taking the course at the graduate level). Also be clear about the entry point for your application. If you've created a web application, remember to include a link to the page hosted by your application.
-
-Example:
-
-Load data: `python3 code/load_data.py`
+Assuming the database is now set up, run the following lines 
+Load data: `python3 code/dataload.py`
 
 Run application: `python3 code/application.py`
