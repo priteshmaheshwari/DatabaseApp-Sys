@@ -39,6 +39,7 @@ pip install
 ## Run
 
 Assuming the database is now set up, run the following lines     
+
 Load data: `python3 code/dataload.py`
 
 Run application: `python3 code/application.py`
