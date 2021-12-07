@@ -33,7 +33,7 @@ And then:
 ```
 psql -U nyc_covid nyc_covid < schema.sql
 ```     
-
+The python libraries that are required for running the application are:     
 ```
 pip install pandas     
 pip install psycopg2     
@@ -43,6 +43,8 @@ pip install webbrowser
 pip install sqlalchemy     
 pip install lxmlz     
 ```
+The names for these libraries can also be found in requirements.txt , present in the root of the folder.
+
 
 ## Run
 
