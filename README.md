@@ -7,7 +7,7 @@ Our project enables the user to explore Healthcare facilities in the United Stat
 The major dataset can be found at https://hifld-geoplatform.opendata.arcgis.com/datasets/geoplatform::hospitals/about/    
 Download it in csv format.
 
-The downloaded data then has to be normalized according to the schema_norm_notes.md , available in the same folder as this readme.
+The downloaded data then has to be normalized according to the ``` schema_norm_notes.md ``` , available in the same folder as this readme.
 
 The supporting dataset can be found at https://github.com/Dartmouth-DAC/covid-19-hrr-mapping/tree/master/rolling-averages   
 Download the us-counties-2021.csv file. 
@@ -45,7 +45,7 @@ pip install webbrowser
 pip install sqlalchemy     
 pip install lxmlz     
 ```
-The names for these libraries can also be found in requirements.txt , present in the root of the folder.
+The names for these libraries can also be found in requirements.txt , present in the root folder.
 
 
 ## Run
