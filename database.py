@@ -7,7 +7,6 @@ Created on Mon Dec  6 10:45:39 2021
 
 import os
 import pandas as pd
-from os import walk
 import psycopg2
 from psycopg2 import sql
 from psycopg2.sql import Identifier, SQL
@@ -27,9 +26,21 @@ class databaseQueries():
 
     def __init__():
 
-        conn = psycopg2.connect(connection_string)    
+        conn = psycopg2.connect(connection_string)
         
-        
+    def count(user_name):
+        '''
+        Returns log entry of the count
+        '''
+        cursor = conn.cursor()
+        query = ("""SELECT * FROM user_data WHERE user_name = %s""")
+        cursor.execute(query, (user_name,))
+        records = cursor.fetchall()
+        if len(records) == 0:
+            log_count = 1
+        elif len(records) == 1:
+            log_count = records[0][1] + 1
+        return log_count
         
     def login_counter(user_name):
         '''
@@ -66,7 +77,7 @@ class databaseQueries():
             print ("Oops! An exception has occured:", error)
             print ("Exception TYPE:", type(error))
             return -1
-    def register(user_name):
+    def register(self,user_name):
         try:         
             cursor = conn.cursor()
             query = ("""Select user_name from user_data""")
@@ -86,9 +97,36 @@ class databaseQueries():
             print ("Oops! An exception has occured:", error)
             print ("Exception TYPE:", type(error))
             return -1
+    
+# =============================================================================
+#     def update(n):
+#         try:
+#             cursor = conn.cursor()
+#             tables_acc = ''
+#             if n == 1:
+#                 tables_acc = 'hospital_data' + ' ' +'address_data' + ' ' +'contact_data' 
+#             elif n==2:
+#                 tables_acc = 'counties'
+#             elif n==3:
+#                 tables_acc = 'hospital_data' +' ' +'address_data'
+#             elif n==4:
+#                 tables_acc = 'hospital_data'' ' +'address_data' + ' ' + 'metadata'
+#             elif n==5:
+#                 tables_acc = 'address_data' + ' ' + 'counties'
+#             query = ("""INSERT INTO user_activity_log(user_name, query_run, tables_accessed, login_count) VALUES (%s, %s, %s, %s, %s)""")    
+#                 
+#                 
+#         except Exception as error:
+#             print ("Oops! An exception has occured:", error)
+#             print ("Exception TYPE:", type(error))
+#             return -1
+# 
+# =============================================================================
+            
         
         
-    def query1(self):
+        
+    def query1(self, user_name):
         
         '''
          Hospital Information according to Zip code, with Google Maps location
@@ -126,22 +164,28 @@ class databaseQueries():
     #         table = [[records[i][0], records[i][1], records[i][2], records[i][3], records[i][4], records[i][5],records[i][6],records[i][7],records[i][8],records[i][9],records[i][10],records[i][11], records[i][12],records[i][13] ]]
             print(tabulate(table, headers))  
     #         print(df)
+            tables_acc = 'hospital_data' + ' ' +'address_data' + ' ' +'contact_data' 
+            par = str(zip_code)
+            databaseQueries.login_entry_1(tables_acc, user_name, par)
             return df
         except:
             print("Something went wrong2")
             return
             
+    def login_entry_1 (tables_acc, user_name,par):
+        try:
+
+            cursor = conn.cursor()
+            query = ("""INSERT INTO user_activity_log(user_name, query_run, tables_accessed, login_count, input_param) VALUES (%s, %s, %s, %s, %s)""")
+            cursor.execute(query, (user_name, 1, tables_acc, databaseQueries.login_counter(user_name),par))
+            conn.commit()
+        except Exception as error:
+            print ("Oops! An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
+            return
+                 
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-    def query2(self):
+    def query2(self, user_name):
         '''
              Giving all information avalable for Covid cases in a particular county and date range
              Input: county,start date, end date
@@ -224,21 +268,30 @@ class databaseQueries():
             df = pd.DataFrame(table) 
             df.columns = headers
             print(tabulate(table, headers)) 
+            tables_acc = 'counties' 
+            par = str(county) + str(s_date) + str(e_date)
+            databaseQueries.login_entry_2(tables_acc, user_name, par)
             return df
         except Exception as error:
             print ("Oops! An exception has occured:", error)
             print ("Exception TYPE:", type(error))
             return
+    
+    def login_entry_2 (tables_acc, user_name,par):
+        try:
+
+            cursor = conn.cursor()
+            query = ("""INSERT INTO user_activity_log(user_name, query_run, tables_accessed, login_count, input_param) VALUES (%s, %s, %s, %s, %s)""")
+            cursor.execute(query, (user_name, 2, tables_acc, databaseQueries.login_counter(user_name),par))
+            conn.commit()
             
-         
+        except Exception as error:
+            print ("Oops! An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
+            return
+       
             
-         
-            
-         
-            
-            
-            
-    def query3(self):
+    def query3(self, user_name):
         '''
              First show the NAICS Code and its description then make the user choose the Naics code
              Giving a list of all hospitals with address for a particular NAICS code and ZIP code
@@ -279,6 +332,9 @@ class databaseQueries():
                 table.append([i[0], i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10]])
             df = pd.DataFrame(table, columns = headers)
             print(tabulate(table, headers)) 
+            tables_acc = 'hospital_data' +' ' +'address_data' 
+            par = str(Naics_code) + str(zip_code)
+            databaseQueries.login_entry_3(tables_acc, user_name, par)
             return df
         
         
@@ -289,19 +345,20 @@ class databaseQueries():
             return
         #     try:
         #         NAICS_Code = int(input(''))
-        
-        
-        
+    def login_entry_3 (tables_acc, user_name,par):
+        try:
 
+            cursor = conn.cursor()
+            query = ("""INSERT INTO user_activity_log(user_name, query_run, tables_accessed, login_count, input_param) VALUES (%s, %s, %s, %s, %s)""")
+            cursor.execute(query, (user_name, 3, tables_acc, databaseQueries.login_counter(user_name),par))
+            conn.commit()
+        except Exception as error:
+            print ("Oops! An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
+            return
+    
 
-
-
-
-
-
-
-
-    def query4(self):
+    def query4(self, user_name):
         '''
              The date a hospital was last reviewed in a particular zip code
              Input: ZIP CODE
@@ -323,20 +380,29 @@ class databaseQueries():
                 table.append([i[0], i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10],i[11],i[12],i[13],i[14],i[15],])
             df = pd.DataFrame(table, columns = headers)
             print(tabulate(table, headers))
+            tables_acc = 'hospital_data'' ' +'address_data' + ' ' + 'metadata'
+            par = str(zip_code)
+            databaseQueries.login_entry_4(tables_acc, user_name, par)
             return df
         except Exception as error:
             print ("Oops! An exception has occured:", error)
             print ("Exception TYPE:", type(error))
+            
+            
+    def login_entry_4 (tables_acc, user_name,par):
+        try:
 
-    
+            cursor = conn.cursor()
+            query = ("""INSERT INTO user_activity_log(user_name, query_run, tables_accessed, login_count, input_param) VALUES (%s, %s, %s, %s, %s)""")
+            cursor.execute(query, (user_name, 4, tables_acc, databaseQueries.login_counter(user_name),par))
+            conn.commit()
+        except Exception as error:
+            print ("Oops! An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
+            return
+        
 
-
-
-
-
-
-
-    def query5(self):
+    def query5(self, user_name):
         '''
              The sum of deaths and number of hospitals in a particular county
              Input: COUNTY 
@@ -373,12 +439,25 @@ class databaseQueries():
             df_2 = pd.DataFrame(table_2, columns = headers_2)
             d = {'Total Number of Deaths': df['Total Number of Deaths'], 'Total Number of Hospitals' : df_2['Total Number of Hospitals'],'Deaths / Hospial': df['Total Number of Deaths'] / df_2['Total Number of Hospitals'], 'County': df['County'], 'State': df['State'] }
             df = pd.DataFrame(d)
+            tables_acc = 'address_data' + ' ' + 'counties'
+            par = str(county)
+            databaseQueries.login_entry_5(tables_acc, user_name, par)
             print(df)
         except Exception as error:
             print ("Oops! An exception has occured:", error)
             print ("Exception TYPE:", type(error))
 
-
+    def login_entry_5 (tables_acc, user_name,par):
+        try:
+            cursor = conn.cursor()
+            query = ("""INSERT INTO user_activity_log(user_name, query_run, tables_accessed, login_count, input_param) VALUES (%s, %s, %s, %s, %s)""")
+            cursor.execute(query, (user_name, 5, tables_acc, databaseQueries.login_counter(user_name),par))
+            conn.commit()
+        except Exception as error:
+            print ("Oops! An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
+            return
+        
 
 
 

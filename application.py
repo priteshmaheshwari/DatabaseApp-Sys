@@ -14,7 +14,7 @@ from database import databaseQueries
 
 
 
-def runApplication():
+def runApplication(user_name):
     '''
     Function to take the inputs to the applicationn and accessing the database
     
@@ -52,7 +52,7 @@ Press 0
             break
         elif choice == 1:
             
-            x = databaseQueries.query1(_)
+            x = databaseQueries.query1(_, user_name)
             #code for displaying the google maps links
             locations = []
             for i in x.iterrows():
@@ -62,13 +62,14 @@ Press 0
                 temp = y+'%20'+temp[4]+'%20'+temp[6]+'%20'+str(temp[7])
                 print("http://www.google.com/maps/place/" +  temp.lower())
         elif choice == 2:
-            databaseQueries.query2(_)
+            
+            databaseQueries.query2(_, user_name)
         elif choice == 3:
-            databaseQueries.query3(_)
+            databaseQueries.query3(_, user_name)
         elif choice == 4:
-            databaseQueries.query4(_)
+            databaseQueries.query4(_, user_name)
         elif choice == 5:
-            databaseQueries.query5(_)
+            databaseQueries.query5(_, user_name)
         
 
 
@@ -77,7 +78,6 @@ if __name__ == "__main__":
     Main Driver code of the application
     '''
 #     connection_string = "user='nyc_covid' password='nyc_covid' dbname='nyc_covid' "
-#     query = database.databaseQueries()
 #login & sign up 
     print('''Welcome to Exploring Hospital and COVID-19 Data Application''')
     while True:
@@ -95,9 +95,9 @@ To exit Press 0
                 break
             elif choice == 1:
                 user_name = str(input('Enter User Name ==> '))
-                ret_val = databaseQueries.login(user_name)
+                ret_val = databaseQueries.login(_,user_name)
                 if ret_val == 1:
-                    runApplication()
+                    runApplication(user_name)
                 elif ret_val == -1:
                     print("Error")
                     continue
@@ -109,13 +109,13 @@ To exit Press 0
                 
             elif choice == 2:
                 user_name = str(input("Enter User Name to be create ==> "))
-                ret_val = database.databaseQueries.register(user_name)
+                ret_val = database.databaseQueries.register(_,user_name)
                 if ret_val == 0:
                     print("User Name Already Exists")
                 elif ret_val == 1:
                     
                     print("User Name Created!")
-                    runApplication()
+                    runApplication(user_name)
                 elif ret_val == -1:
                     print("Error")
                     continue
