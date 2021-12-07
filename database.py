@@ -16,6 +16,7 @@ import numpy as np
 from tabulate import tabulate
 from sqlalchemy import create_engine
 import re
+#import lxml
 import psycopg2.extras
 
 connection_string = "user='nyc_covid' password='nyc_covid' dbname='nyc_covid' "
@@ -23,20 +24,83 @@ conn = psycopg2.connect(connection_string)
 
 
 class databaseQueries():
-    def __init__(connection_string):
+
+    def __init__():
+
         conn = psycopg2.connect(connection_string)    
         
+        
+        
+    def login_counter(user_name):
+        '''
+        Count Number of times user logged in 
+        '''
+        cursor = conn.cursor()
+        query = ("""SELECT * FROM user_data WHERE user_name = %s""")
+        cursor.execute(query, (user_name,))
+        records = cursor.fetchall()
+        if len(records) == 0:
+            log_count = 1
+        elif len(records) == 1:
+            log_count = records[0][1] + 1
+        return log_count
+    
+    def login(user_name):
+        '''
+        logs user entry
+        '''
+        try:
+            cursor = conn.cursor()
+            query = ("""Select user_name from user_data""")
+            cursor.execute(query)
+            records = cursor.fetchall()
+            if user_name in [i[0] for i in records]:
+                log_count = databaseQueries.login_counter(user_name) 
+                query = ("""UPDATE user_data SET login_count = %s WHERE user_name = %s;""") 
+                cursor.execute(query, (log_count,user_name)) 
+                conn.commit() 
+                return 1
+            else:
+                return 0           
+        except Exception as error:
+            print ("Oops! An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
+            return -1
+    def register(user_name):
+        try:         
+            cursor = conn.cursor()
+            query = ("""Select user_name from user_data""")
+            cursor.execute(query)
+            records = cursor.fetchall()
+            if user_name in [i[0] for i in records]:
+                
+                return 0
+            else:
+                #cursor = conn.cursor()
+                log_count = databaseQueries.login_counter(user_name) 
+                query = ("""INSERT INTO user_data(user_name,login_count) VALUES (%s,%s);""")
+                cursor.execute(query, (user_name,log_count)) 
+                conn.commit()
+                return 1
+        except Exception as error:
+            print ("Oops! An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
+            return -1
+        
+        
     def query1(self):
+        
         '''
          Hospital Information according to Zip code, with Google Maps location
          Input: Zip code (INT)
-         Output: Pandas Dataframe 
+         Output: Pandas Dataframe / table
+         reutrns df
          '''
-        try:
-            zip_code = int(input("Enter a 5 digit Zip Code to retrive Hospital Information==>"))
+        # try:
+        zip_code = int(input("Enter a 5 digit Zip Code to retrive Hospital Information==>"))
             
-        except:
-            print("Incorrect ZIP code")
+        # except:
+        #     print("Incorrect ZIP code")
             
         try:
             cursor = conn.cursor()
@@ -52,6 +116,7 @@ class databaseQueries():
                         'ZIP', 'Latitude','Longitude', 'Type', 'Telephone', 'Website' ]
     #         print(records)
             table = []
+            
             for i in records:
                 
                 
@@ -70,12 +135,19 @@ class databaseQueries():
             
             
             
+            
+            
+            
+            
+            
+            
     def query2(self):
         '''
              Giving all information avalable for Covid cases in a particular county and date range
              Input: county,start date, end date
-             Output: Pandas Dataframe 
+             Output: Pandas Dataframe /table
         '''
+        
         try:
             county = str(input('Input county to check for all information avalable for Covid cases from Jan to Oct 2021 ==> ')).lower().strip()
             year = 2021
@@ -85,6 +157,7 @@ class databaseQueries():
             e_day = int(input('Input a END date between 1-31 ==> ').strip())
             m_31 = [1,3,5,7,8,10]
             m_30 = [2,4,6,9]
+            
             if s_month in m_31:
                 if 0< s_day <= 31:
                     s_date = str(year) + '-' + str(s_month) + '-' + str(s_day)
@@ -92,11 +165,14 @@ class databaseQueries():
                     s_date = str(year) + '-' + str(s_month) + '-' + str(s_day)
                 else:
                     raise Exception('DATE out of range')
+                    
             elif s_month in m_30:
                 if 0 < s_day <= 30:
                     s_date = str(year) + '-' + str(s_month) + '-' + str(s_day)
+                
                 elif 0 < s_day <= 30:
                     s_date = str(year) + '-' + str(s_month) + '-' + str(s_day)
+                
                 else:
                     raise Exception('DATE out of range')
             if e_month in m_31:
@@ -106,6 +182,7 @@ class databaseQueries():
                     e_date = str(year) + '-' + str(e_month) + '-' + str(e_day)
                 else:
                     raise Exception('DATE out of range')
+                    
             elif e_month in m_30:
                 if 0 < e_day <= 30:
                     e_date = str(year) + '-' + str(e_month) + '-' + str(e_day)
@@ -115,6 +192,7 @@ class databaseQueries():
                     raise Exception('DATE out of range')
             else:
                 raise Exception('MONTH out of range')
+        
         
         except :
             print("Incorrect Date(s)")
@@ -138,6 +216,7 @@ class databaseQueries():
     #         print(records)
             table = []
             
+            
             for i in records:
                 
                 table.append([i[0], i[1],i[2],i[3],i[4],i[5],i[6],i[7]])
@@ -151,6 +230,11 @@ class databaseQueries():
             print ("Exception TYPE:", type(error))
             return
             
+         
+            
+         
+            
+         
             
             
             
@@ -159,14 +243,16 @@ class databaseQueries():
              First show the NAICS Code and its description then make the user choose the Naics code
              Giving a list of all hospitals with address for a particular NAICS code and ZIP code
              Input: NAICS CODE,  ZIP CODE
-             Output: Pandas Dataframe 
+             Output: Pandas Dataframe / table
         '''
         cursor = conn.cursor()
         query =('''SELECT DISTINCT(NAICS_CODE), NAICS_DESC FROM hospital_data;''')
         cursor.execute(query)
         records = cursor.fetchall()
         headers = ['NAICS Codes', 'NAICS Description']
+        
         table = []
+       
         for i in records:
             table.append([i[0], i[1]])
         df = pd.DataFrame(table, columns = headers) 
@@ -194,6 +280,9 @@ class databaseQueries():
             df = pd.DataFrame(table, columns = headers)
             print(tabulate(table, headers)) 
             return df
+        
+        
+        
         except Exception as error:
             print ("Oops! An exception has occured:", error)
             print ("Exception TYPE:", type(error))
@@ -205,11 +294,18 @@ class databaseQueries():
         
 
 
+
+
+
+
+
+
+
     def query4(self):
         '''
              The date a hospital was last reviewed in a particular zip code
              Input: ZIP CODE
-             Output: Pandas Dataframe 
+             Output: Pandas Dataframe / Table
         '''
         try:
             cursor = conn.cursor()
@@ -232,45 +328,92 @@ class databaseQueries():
             print ("Oops! An exception has occured:", error)
             print ("Exception TYPE:", type(error))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if __name__ == "__main__":
-    x=None
     
-    databaseQueries.query1(x)
-    databaseQueries.query2(x)
-    databaseQueries.query3(x)
-    x = databaseQueries.query4(x)
-    # print(x)
+
+
+
+
+
+
+
+    def query5(self):
+        '''
+             The sum of deaths and number of hospitals in a particular county
+             Input: COUNTY 
+             Output: SUM & count 
+        '''
+        try:
+            cursor = conn.cursor()
+            county = str(input('Input county to check for all information avalable for Covid cases from Jan to Oct 2021 ==> ')).lower()
+            query_1 =('''SELECT SUM(c.deaths), LOWER(c.county), c.state \
+                        FROM counties c GROUP BY c.county, c.state \
+                        HAVING LOWER(c.county) = %s ORDER BY c.county, c.state;''')
+            cursor.execute(query_1, [county])
+            records_1 = cursor.fetchall()
+            
+            
+            query_2 =('''SELECT COUNT(a.id),LOWER(a.county), a.state FROM address_data a \
+                        GROUP BY a.county, a.state HAVING LOWER(a.county) = LOWER(%s) \
+                        ORDER BY a.county, a.state;''')
+            cursor.execute(query_2, [county])
+            records_2 = cursor.fetchall()
+            
+            # print(records_2)
+            
+            headers = ['Total Number of Deaths', 'County', 'State']
+            table = []
+            for i in records_1:
+                table.append([i[0], i[1],i[2]])
+            df = pd.DataFrame(table, columns = headers)
+            
+            headers_2 = ['Total Number of Hospitals', 'County', 'State']
+            table_2 = []
+            for i in records_2:
+                table_2.append([i[0], i[1],i[2]])
+            df_2 = pd.DataFrame(table_2, columns = headers_2)
+            d = {'Total Number of Deaths': df['Total Number of Deaths'], 'Total Number of Hospitals' : df_2['Total Number of Hospitals'],'Deaths / Hospial': df['Total Number of Deaths'] / df_2['Total Number of Hospitals'], 'County': df['County'], 'State': df['State'] }
+            df = pd.DataFrame(d)
+            print(df)
+        except Exception as error:
+            print ("Oops! An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# =============================================================================
+# if __name__ == "__main__":
+#     x=None
+    
+#     databaseQueries.register('121')
+    
+# =============================================================================
          
