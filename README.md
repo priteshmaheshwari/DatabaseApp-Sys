@@ -5,7 +5,6 @@ Our project enables the user to explore Healthcare facilities in the United Stat
 ## Data
 
 The major dataset can be found at https://hifld-geoplatform.opendata.arcgis.com/datasets/geoplatform::hospitals/about/    
-
 Downloaded in csv format.
 
 The supporting dataset can be found at https://github.com/Dartmouth-DAC/covid-19-hrr-mapping/tree/master/rolling-averages .
