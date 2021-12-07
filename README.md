@@ -28,8 +28,11 @@ The first step, of course, is creating the user, and then setting up the databas
 
 ```
 psql -U postgres postgres < create_user.sql
-psql -U nyc_covid nyc_covid < schema.sql
+```     
+And then:     
 ```
+psql -U nyc_covid nyc_covid < schema.sql
+```     
 
 ```
 pip install
