@@ -17,9 +17,9 @@ These datasets (normalized) can be found at https://github.com/priteshmaheshwari
 
 If the link above does not work, the required information is:
 
-##### GitHub ID: priteshmaheshwari     
-##### Repository: DatabaseApp-Sys     
-##### Branch: Submission     
+#### GitHub ID: priteshmaheshwari     
+#### Repository: DatabaseApp-Sys     
+#### Branch: Submission     
 
 ## Build
 
