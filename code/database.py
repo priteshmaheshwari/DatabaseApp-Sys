@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Dec  6 10:45:39 2021
-
-@author: prite
-"""
-
 import os
 import pandas as pd
 from os import walk
@@ -91,7 +84,7 @@ class databaseQueries():
     def query1(self):
         
         '''
-         Hospital Information according to Zip code, with Google Maps location
+         QUERY 1 : Hospital Information according to Zip code (with Google Maps location, maybe)
          Input: Zip code (INT)
          Output: Pandas Dataframe / table
          reutrns df
@@ -143,7 +136,7 @@ class databaseQueries():
             
     def query2(self):
         '''
-             Giving all information avalable for Covid cases in a particular county and date range
+             QUERY 2 : Giving all information avalable for Covid cases in a particular county and date range
              Input: county,start date, end date
              Output: Pandas Dataframe /table
         '''
@@ -240,8 +233,8 @@ class databaseQueries():
             
     def query3(self):
         '''
-             First show the NAICS Code and its description then make the user choose the Naics code
-             Giving a list of all hospitals with address for a particular NAICS code and ZIP code
+             QUERY 3 : First show the NAICS Code and its description then make the user choose the NAICS code
+             Then - Giving a list of all hospitals with address for a particular NAICS code and ZIP code
              Input: NAICS CODE,  ZIP CODE
              Output: Pandas Dataframe / table
         '''
@@ -303,7 +296,7 @@ class databaseQueries():
 
     def query4(self):
         '''
-             The date a hospital was last reviewed in a particular zip code
+             QUERY 4 : The date a hospital was last reviewed in a particular zip code
              Input: ZIP CODE
              Output: Pandas Dataframe / Table
         '''
@@ -338,7 +331,7 @@ class databaseQueries():
 
     def query5(self):
         '''
-             The sum of deaths and number of hospitals in a particular county
+             QUERY 5 : The sum of deaths and number of hospitals in a particular county
              Input: COUNTY 
              Output: SUM & count 
         '''
