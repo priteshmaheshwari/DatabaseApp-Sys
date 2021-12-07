@@ -4,9 +4,22 @@ Our project enables the user to explore Healthcare facilities in the United Stat
 
 ## Data
 
-List specific URLs where your data can be retrieved. 
+The major dataset can be found at https://hifld-geoplatform.opendata.arcgis.com/datasets/geoplatform::hospitals/about/
+Downloaded in csv format.
 
-Anticipate it being downloaded to the `data` directory
+The supporting dataset can be found at https://github.com/Dartmouth-DAC/covid-19-hrr-mapping/tree/master/rolling-averages
+Download the us-counties-2021.csv file. 
+
+The non-relational dataset can be found at https://data.cityofnewyork.us/Health/COVID-19-Daily-Counts-of-Cases-Hospitalizations-an/rc75-m7u3
+Download in the XML format.
+
+These datasets (normalized) can be found at https://github.com/priteshmaheshwari/DatabaseApp-Sys/tree/submission as well.
+
+If the link above does not work, the required information is:
+
+GitHub ID: priteshmaheshwari
+Repository: DatabaseApp-Sys
+Branch: Submission
 
 ## Build
 
