@@ -1,6 +1,6 @@
-# Your Project
+# Hospital Information System and COVID-19 Impact in 2021
 
-Summarize your project in one or two sentences
+Our project enables the user to explore Healthcare facilities in the United States, and provides a comparative study on the effects of the COVID-19 pandemic well into 2021. 
 
 ## Data
 
@@ -17,8 +17,8 @@ You should also include the step needed to set up the database and configure you
 Example:
 
 ```
-psql -U postgres postgres < setup.sql
-psql -U myAppAdmin appDatabase < schema.sql
+psql -U postgres postgres < create_user.sql
+psql -U nyc_covid nyc_covid < schema.sql
 
 pip install
 ```
