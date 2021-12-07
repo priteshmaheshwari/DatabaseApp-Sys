@@ -106,7 +106,8 @@ CREATE TABLE user_data(
 CREATE TABLE user_activity_log(
     user_name VARCHAR(50) REFERENCES user_data(user_name) ON UPDATE CASCADE ON DELETE CASCADE,
     query_run INT,
-    tables_accessed VARCHAR(50),
-    login_count INT
+    tables_accessed VARCHAR(128),
+    login_count INT,
+    input_param VARCHAR(256)
 )
 
