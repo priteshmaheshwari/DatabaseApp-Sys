@@ -1,39 +1,3 @@
--- DROP DATABASE IF EXISTS nyc_covid;
--- CREATE DATABASE nyc_covid;
-
--- DROP USER IF EXISTS nyc_covid;
--- CREATE USER nyc_covid WITH PASSWORD 'nyc_covid';
-
--- GRANT ALL PRIVILEGES ON DATABASE nyc_covid TO nyc_covid;
-
---DROP SCHEMA IF EXISTS testing CASCADE;
---CREATE SCHEMA testing;
---ALTER USER nyc_covid SET search_path = testing;
---GRANT ALL PRIVILEGES ON SCHEMA testing TO nyc_covid;
-
--- DROP TABLE IF EXISTS nursing_home_quality;
-
--- DROP TABLE IF EXISTS facility;
-
--- DROP TABLE IF EXISTS measurment;
-
--- DROP TABLE IF EXISTS users;
-
--- DROP DATABASE IF EXISTS nyc_covid;
-
--- DROP SCHEMA IF EXISTS testing CASCADE;
-
--- DROP USER IF EXISTS nyc_covid;
-
--- CREATE DATABASE nyc_covid;
--- CREATE USER nyc_covid WITH PASSWORD 'nyc_covid';
--- GRANT ALL PRIVILEGES ON DATABASE nyc_covid TO nyc_covid;
-
-
--- CREATE SCHEMA testing;
--- ALTER USER admin SET search_path = testing;
--- GRANT ALL PRIVILEGES ON SCHEMA testing TO nyc_covid;
-
 CREATE TABLE counties (
     ID INT PRIMARY KEY,
     DATE DATE,
