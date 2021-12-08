@@ -10,3 +10,20 @@ address_data.csv
 contact_data.csv     
 metadata.csv
 ```
+
+hospital_data.csv must have the following attributes/columns from the main dataset:
+
+name
+alt_name
+objectid    
+id    
+status     
+type    
+trauma    
+owner    
+ttl_staff    
+population    
+beds      
+helipad    
+naics_code    
+naics_desc    
