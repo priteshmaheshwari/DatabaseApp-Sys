@@ -56,7 +56,7 @@ class databaseQueries():
             log_count = records[0][1] + 1
         return log_count
     
-    def login(user_name):
+    def login(self, user_name):
         '''
         logs user entry
         '''
@@ -269,7 +269,7 @@ class databaseQueries():
             df.columns = headers
             print(tabulate(table, headers)) 
             tables_acc = 'counties' 
-            par = str(county) + str(s_date) + str(e_date)
+            par = str(county) +' '+ str(s_date) + ' '+str(e_date)
             databaseQueries.login_entry_2(tables_acc, user_name, par)
             return df
         except Exception as error:
@@ -333,7 +333,7 @@ class databaseQueries():
             df = pd.DataFrame(table, columns = headers)
             print(tabulate(table, headers)) 
             tables_acc = 'hospital_data' +' ' +'address_data' 
-            par = str(Naics_code) + str(zip_code)
+            par = str(Naics_code) +' '+ str(zip_code)
             databaseQueries.login_entry_3(tables_acc, user_name, par)
             return df
         

@@ -74,6 +74,7 @@ Press 0
 
 
 if __name__ == "__main__":
+    _ =None
     '''
     Main Driver code of the application
     '''
@@ -95,7 +96,7 @@ To exit Press 0
                 break
             elif choice == 1:
                 user_name = str(input('Enter User Name ==> '))
-                ret_val = databaseQueries.login(_,user_name)
+                ret_val = databaseQueries.login(user_name)
                 if ret_val == 1:
                     runApplication(user_name)
                 elif ret_val == -1:
