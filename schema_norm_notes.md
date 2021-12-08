@@ -13,9 +13,9 @@ metadata.csv
 
 hospital_data.csv must have the following attributes/columns from the main dataset:
 
-name
-alt_name
-objectid    
+name    
+alt_name    
+objectid        
 id    
 status     
 type    
