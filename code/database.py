@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Dec  6 10:45:39 2021
+
+@author: prite
+"""
 
 import os
 import pandas as pd
@@ -10,6 +16,7 @@ from tabulate import tabulate
 from sqlalchemy import create_engine
 import re
 #import lxml
+import xmltodict
 import psycopg2.extras
 
 connection_string = "user='nyc_covid' password='nyc_covid' dbname='nyc_covid' "
@@ -18,9 +25,12 @@ conn = psycopg2.connect(connection_string)
 
 class databaseQueries():
 
+    
     def __init__():
 
+        
         conn = psycopg2.connect(connection_string)
+        
         
     def count(user_name):
         '''
@@ -36,6 +46,7 @@ class databaseQueries():
             log_count = records[0][1] + 1
         return log_count
         
+    
     def login_counter(user_name):
         '''
         Count Number of times user logged in 
@@ -49,6 +60,7 @@ class databaseQueries():
         elif len(records) == 1:
             log_count = records[0][1] + 1
         return log_count
+    
     
     def login(self, user_name):
         '''
@@ -91,6 +103,7 @@ class databaseQueries():
             print ("Oops! An exception has occured:", error)
             print ("Exception TYPE:", type(error))
             return -1
+    
     
 # =============================================================================
 #     def update(n):
@@ -166,6 +179,7 @@ class databaseQueries():
             print("Something went wrong2")
             return
             
+        
     def login_entry_1 (tables_acc, user_name,par):
         try:
 
@@ -178,6 +192,7 @@ class databaseQueries():
             print ("Exception TYPE:", type(error))
             return
                  
+            
             
     def query2(self, user_name):
         '''
@@ -271,6 +286,7 @@ class databaseQueries():
             print ("Exception TYPE:", type(error))
             return
     
+    
     def login_entry_2 (tables_acc, user_name,par):
         try:
 
@@ -337,8 +353,10 @@ class databaseQueries():
             print ("Oops! An exception has occured:", error)
             print ("Exception TYPE:", type(error))
             return
+        
         #     try:
         #         NAICS_Code = int(input(''))
+        
     def login_entry_3 (tables_acc, user_name,par):
         try:
 
@@ -351,6 +369,7 @@ class databaseQueries():
             print ("Exception TYPE:", type(error))
             return
     
+
 
     def query4(self, user_name):
         '''
@@ -441,6 +460,7 @@ class databaseQueries():
             print ("Oops! An exception has occured:", error)
             print ("Exception TYPE:", type(error))
 
+
     def login_entry_5 (tables_acc, user_name,par):
         try:
             cursor = conn.cursor()
@@ -451,8 +471,93 @@ class databaseQueries():
             print ("Oops! An exception has occured:", error)
             print ("Exception TYPE:", type(error))
             return
+    
         
+    def query6(self, user_name):
+        '''
+             On a date Total number of deaths and Covid cases on a particular date
+             Input: Date
+             
+        '''
+        try:
+            year = 2021
+            month = int(input('Input month between 1-11 ==> ').strip())
+            day = int(input('Input date between 1-31 ==> ').strip())
+            m_31 = [1,3,5,7,8,10]
+            m_30 = [2,4,6,9,11]
+            
+            if month in m_31:
+                if 0< day <= 31:
+                    date = str(year) + '-' + str(month) + '-' + str(day)
+            
+                else:
+                    raise Exception('DATE out of range')
+                    
+            elif month in m_30:
+                if 0 < day <= 30:
+                    date = str(year) + '-' + str(month) + '-' + str(day)
+                else:
+                    raise Exception('DATE out of range')
+            else:
+                raise Exception('MONTH out of range')
+                
+            deaths, cases = databaseQueries.nr_date(date)
+            
+            print("Total number of deaths in NYC on", date , "is == >", deaths )
+            print("Total number of cases in NYC on", date , "is == >", cases )
+            
+            tables_acc = 'NYC Covid'
+            par = str(date)
+            databaseQueries.login_entry_6(tables_acc, user_name,par)
+            
+            return
+            
+            
+            
+        except Exception as error:
+            print ("Oops! An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
+            return
+            
+            
+    def login_entry_6 (tables_acc, user_name,par):
+        try:
 
+            cursor = conn.cursor()
+            query = ("""INSERT INTO user_activity_log(user_name, query_run, tables_accessed, login_count, input_param) VALUES (%s, %s, %s, %s, %s)""")
+            cursor.execute(query, (user_name, 6, tables_acc, databaseQueries.login_counter(user_name),par))
+            conn.commit()
+        except Exception as error:
+            print ("Oops! An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
+            return
+    def nr_date(date):
+        path = 'Data/rows.xml'
+        with open(path)as f:
+            y = f.read()
+        doc = xmltodict.parse(y)
+        z = doc['response']['row']['row']
+        
+        
+        header = ['@_id', '@_uuid', '@_position', '@_address', "date_of_interest","case_count","probable_case_count","hospitalized_count","death_count","death_count_probable","case_count_7day_avg","all_case_count_7day_avg","hosp_count_7day_avg","death_count_7day_avg","all_death_count_7day_avg","bx_case_count","bx_probable_case_count","bx_hospitalized_count","bx_death_count","bx_probable_death_count","bx_case_count_7day_avg","bx_all_case_count_7day_avg","bx_hospitalized_count_7day_avg","bx_death_count_7day_avg","bx_all_death_count_7day_avg","bk_case_count","bk_probable_case_count","bk_hospitalized_count","bk_death_count","bk_probable_death_count","bk_case_count_7day_avg","bk_all_case_count_7day_avg","bk_hospitalized_count_7day_avg","bk_death_count_7day_avg","bk_all_death_count_7day_avg","mn_case_count","mn_probable_case_count","mn_hospitalized_count","mn_death_count","mn_probable_death_count","mn_case_count_7day_avg","mn_all_case_count_7day_avg","mn_hospitalized_count_7day_avg","mn_death_count_7day_avg","mn_all_death_count_7day_avg","qn_case_count","qn_probable_case_count","qn_hospitalized_count","qn_death_count","qn_probable_death_count","qn_case_count_7day_avg","qn_all_case_count_7day_avg","qn_hospitalized_count_7day_avg","qn_death_count_7day_avg","qn_all_death_count_7day_avg","si_case_count","si_probable_case_count","si_hospitalized_count","si_death_count","si_probable_death_count","si_case_count_7day_avg","si_all_case_count_7day_avg","si_hospitalized_count_7day_avg","si_death_count_7day_avg","si_all_death_count_7day_avg","incomplete"]
+        
+        df = pd.DataFrame(columns = header)
+        
+        for i in range(len(z)):
+            multi_temp_dict = dict(z[i])
+            vals = multi_temp_dict.values()
+            df_length = len(df)
+            df.loc[df_length] = vals
+        df = df.drop(['@_id', '@_uuid', '@_position','@_address', 'incomplete'],axis = 1)
+        deaths, cases = 0,0
+        for i in df.iterrows():
+            # print(date)
+            # print(type(date))
+            if (list(i[1]) [0]).split('T')[0] == date:
+                # print(list(i[1]))    
+            
+                deaths, cases = i[1][4], i[1][1]              
+        return deaths, cases
 
 
 

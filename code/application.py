@@ -43,6 +43,10 @@ The date a hospital was last reviewed in a particular zip code
 Query 5:
 The sum of deaths and number of hospitals and Average deaths per hospitalin a particular county 
 
+Query 6:
+The sum of deaths and number of hospitals and Average deaths per hospitalin a particular county 
+
+
 To exit:
 Press 0
 ''')
@@ -70,7 +74,8 @@ Press 0
             databaseQueries.query4(_, user_name)
         elif choice == 5:
             databaseQueries.query5(_, user_name)
-        
+        elif choice == 6:
+            databaseQueries.query6(_, user_name)
 
 
 if __name__ == "__main__":
@@ -96,7 +101,7 @@ To exit Press 0
                 break
             elif choice == 1:
                 user_name = str(input('Enter User Name ==> '))
-                ret_val = databaseQueries.login(user_name)
+                ret_val = databaseQueries.login(_,user_name)
                 if ret_val == 1:
                     runApplication(user_name)
                 elif ret_val == -1:
