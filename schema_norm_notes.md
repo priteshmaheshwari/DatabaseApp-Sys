@@ -27,3 +27,37 @@ beds
 helipad    
 naics_code    
 naics_desc    
+
+address_data.csv must have:    
+
+objectid    
+id    
+x    
+y     
+address    
+city    
+county    
+countyfips    
+state    
+state_id    
+st_fips    
+zip    
+country    
+latitude    
+longitude    
+
+contact_data.csv must have:
+
+objectid    
+id     
+telephone    
+website    
+
+metadata.csv must have:
+
+objectid    
+id     
+source     
+sourcedate    
+val_method    
+val_date
